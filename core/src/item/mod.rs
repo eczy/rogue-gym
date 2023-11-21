@@ -24,7 +24,7 @@ use std::rc::{Rc, Weak};
 use crate::tile::{Drawable, Tile};
 use log::debug;
 use serde::{Serialize, Deserialize};
-use derive_more::{Add, Sub, Mul, Div, Display, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into, BitAnd, BitAndAssign, BitOr, BitOrAssign};
+use derive_more::{Add, Sub, Mul, Div, AddAssign, SubAssign, MulAssign, DivAssign, From, Into, BitAnd, BitAndAssign, BitOr, BitOrAssign};
 
 
 /// Item configuration

@@ -1,23 +1,13 @@
-#[macro_use]
-extern crate failure;
-extern crate ndarray;
-extern crate numpy;
-extern crate pyo3;
-extern crate rect_iter;
-extern crate rogue_gym_core;
-#[cfg(unix)]
-extern crate rogue_gym_devui;
-
-mod fearures;
+mod features;
 mod state_impls;
 mod thread_impls;
 
-use fearures::{MessageFlagInner, StatusFlagInner};
+use features::{MessageFlagInner, StatusFlagInner};
 use ndarray::{Array2, Axis, Zip};
 use numpy::PyArray3;
 use pyo3::{
-    basic::{PyObjectProtocol, PyObjectReprProtocol, PyObjectStrProtocol},
-    exceptions::RuntimeError,
+    exceptions::PyRuntimeError,
+    // basic::{PyObjectProtocol, PyObjectReprProtocol, PyObjectStrProtocol},
     prelude::*,
 };
 use rect_iter::{Get2D, GetMut2D, RectRange};
@@ -35,7 +25,7 @@ fn pyresult<T, E: Display>(result: Result<T, E>) -> PyResult<T> {
 }
 
 fn pyresult_with<T, E: Display>(result: Result<T, E>, msg: &str) -> PyResult<T> {
-    result.map_err(|e| PyErr::new::<RuntimeError, _>(format!("{}: {}", msg, e)))
+    result.map_err(|e| PyErr::new::<PyRuntimeError, _>(format!("{}: {}", msg, e)))
 }
 
 /// A memory efficient representation of Agent observation.
@@ -116,41 +106,29 @@ impl PlayerState {
         Ok(py_array)
     }
     fn copy_hist(&self, py_array: &PyArray3<f32>, offset: usize) {
-        let mut array = py_array.as_array_mut();
+        let mut array = unsafe {py_array.as_array_mut()};
         let hist_array = array.index_axis_mut(Axis(0), usize::from(offset));
-        Zip::from(hist_array).and(&self.history).apply(|p, &r| {
+        Zip::from(hist_array).and(&self.history).for_each(|p, &r| {
             *p = if r { 1.0 } else { 0.0 };
         });
     }
 }
 
-impl<'p> PyObjectReprProtocol<'p> for PlayerState {
-    type Success = String;
-    type Result = PyResult<String>;
-}
-
-impl<'p> PyObjectStrProtocol<'p> for PlayerState {
-    type Success = String;
-    type Result = PyResult<String>;
-}
-
-impl<'p> PyObjectProtocol<'p> for PlayerState {
-    fn __repr__(&'p self) -> <Self as PyObjectReprProtocol>::Result {
+#[pymethods]
+impl PlayerState {
+    fn __repr__(&self) -> String {
         let mut dungeon = self.dungeon_str().fold(String::new(), |mut res, s| {
             res.push_str(s);
             res.push('\n');
             res
         });
         dungeon.push_str(&format!("{}", self.status));
-        Ok(dungeon)
+        dungeon
     }
-    fn __str__(&'p self) -> <Self as PyObjectStrProtocol>::Result {
+    fn __str__(& self) -> String {
         self.__repr__()
     }
-}
 
-#[pymethods]
-impl PlayerState {
     #[getter]
     fn status(&self) -> PyResult<HashMap<String, u32>> {
         Ok(self
@@ -190,7 +168,7 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.gray_image_with_offset(py, flag.len())?;
-        flag.copy_status(&self.status, 1, &mut array.as_array_mut());
+        flag.copy_status(&self.status, 1, &mut unsafe {array.as_array_mut()});
         Ok(array)
     }
     fn gray_image_with_hist(&self, flag: Option<u32>) -> PyResult<&PyArray3<f32>> {
@@ -199,7 +177,7 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.gray_image_with_offset(py, flag.len() + 1)?;
-        let offset = flag.copy_status(&self.status, 1, &mut array.as_array_mut());
+        let offset = flag.copy_status(&self.status, 1, &mut unsafe {array.as_array_mut()});
         self.copy_hist(&array, offset);
         Ok(array)
     }
@@ -213,7 +191,7 @@ impl PlayerState {
         flag.copy_status(
             &self.status,
             usize::from(self.symbols),
-            &mut array.as_array_mut(),
+            &mut unsafe{array.as_array_mut()},
         );
         Ok(array)
     }
@@ -227,7 +205,7 @@ impl PlayerState {
         let offset = flag.copy_status(
             &self.status,
             usize::from(self.symbols),
-            &mut array.as_array_mut(),
+            &mut unsafe {array.as_array_mut()},
         );
         self.copy_hist(&array, offset);
         Ok(array)
@@ -243,15 +221,14 @@ struct GameState {
 #[pymethods]
 impl GameState {
     #[new]
-    fn __new__(obj: &PyRawObject, max_steps: usize, config_str: Option<String>) -> PyResult<()> {
+    fn __new__(obj: PyObject, max_steps: usize, config_str: Option<String>) -> PyResult<Self> {
         let config = if let Some(cfg) = config_str {
             pyresult_with(GameConfig::from_json(&cfg), "Failed to parse config")?
         } else {
             GameConfig::default()
         };
         let inner = pyresult(GameStateImpl::new(config.clone(), max_steps))?;
-        obj.init(GameState { inner, config });
-        Ok(())
+        Ok(GameState { inner, config })
     }
     fn screen_size(&self) -> (i32, i32) {
         (self.config.height, self.config.width)
@@ -298,11 +275,11 @@ struct ParallelGameState {
 impl ParallelGameState {
     #[new]
     fn __new__(
-        obj: &PyRawObject,
+        obj: PyObject,
         py: Python,
         max_steps: usize,
         configs: Vec<String>,
-    ) -> PyResult<()> {
+    ) -> PyResult<Self> {
         let configs = {
             let mut res = vec![];
             for cfg in configs {
@@ -321,12 +298,11 @@ impl ParallelGameState {
         let cloned = configs.clone();
         let conductor = py.allow_threads(move || ThreadConductor::new(cloned, max_steps));
         let conductor = pyresult(conductor)?;
-        obj.init(ParallelGameState {
+        Ok( ParallelGameState {
             conductor,
             configs,
             symbols,
-        });
-        Ok(())
+        })
     }
     fn screen_size(&self) -> (i32, i32) {
         (self.configs[0].height, self.configs[0].width)
@@ -388,7 +364,8 @@ fn play_cli(game: &GameState) -> PyResult<()> {
     Ok(())
 }
 
-#[pymodule(_rogue_gym)]
+#[pymodule]
+#[pyo3(name = "_rogue_gym")]
 fn init_mod(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<GameState>()?;
     m.add_class::<PlayerState>()?;

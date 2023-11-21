@@ -2,7 +2,7 @@
 mod coord;
 mod field;
 mod rogue;
-use std::ops::Index;
+
 
 pub use self::coord::{Coord, Direction, Positioned, X, Y};
 pub use self::field::{Cell, CellAttr, Field};

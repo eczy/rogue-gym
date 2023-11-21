@@ -2,7 +2,7 @@ use enum_iterator::IntoEnumIterator;
 use rect_iter::{FromTuple2, IntoTuple2};
 use std::{fmt, convert::TryInto};
 use tuple_map::TupleMap2;
-use derive_more::{Add, Sub, Mul, Div, Display, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into};
+use derive_more::{Add, Sub, Mul, Div, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into};
 use serde::{Serialize, Deserialize};
 
 #[derive(

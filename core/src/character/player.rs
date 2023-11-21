@@ -11,7 +11,7 @@ use std::{cmp, fmt};
 use log::debug;
 use tuple_map::TupleMap2;
 use serde::{Serialize, Deserialize};
-use derive_more::{Add, Sub, Mul, Div, Display, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into};
+
 
 
 /// Player configuration
