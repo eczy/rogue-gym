@@ -402,7 +402,7 @@ impl Floor {
         let inf = u32::max_value();
         let mut dist = Array2::from_elem([h.0 as usize, w.0 as usize], inf);
         let mut queue = VecDeque::new();
-        *dist.get_mut(Into::<(usize, usize)>::into(from)).expect("get_mut") = 0;
+        *dist.get_mut_p(from) = 0;
         queue.push_back(from);
         while let Some(current) = queue.pop_front() {
             for d in Direction::into_enum_iter().take(8) {
