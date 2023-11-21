@@ -1,4 +1,5 @@
-use input::System;
+use crate::input::System;
+use serde::{Serialize, Deserialize};
 
 /// A representation of Ui transition
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]

@@ -6,6 +6,7 @@ use crate::SmallStr;
 use std::fmt;
 use std::ops::Range;
 use tuple_map::TupleMap3;
+use serde::{Serialize,Deserialize};
 
 /// Weapon configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

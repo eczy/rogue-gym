@@ -1,9 +1,10 @@
 use super::handler::{Handler, ItemInner, ItemStat};
 use super::{InitItem, Item, ItemAttr, ItemKind, ItemNum};
-use character::Defense;
-use rng::{Parcent, RngHandle};
-use smallstr::SmallStr;
+use crate::character::Defense;
+use crate::rng::{Parcent, RngHandle};
+use crate::smallstr::SmallStr;
 use std::fmt;
+use serde::{Serialize, Deserialize};
 
 /// Armor configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

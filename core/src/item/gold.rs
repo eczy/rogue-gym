@@ -1,5 +1,6 @@
 use super::ItemNum;
-use rng::RngHandle;
+use crate::rng::RngHandle;
+use serde::{Serialize, Deserialize};
 
 /// Gold configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

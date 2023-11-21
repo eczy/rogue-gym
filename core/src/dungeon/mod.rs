@@ -2,16 +2,20 @@
 mod coord;
 mod field;
 mod rogue;
+use std::ops::Index;
+
 pub use self::coord::{Coord, Direction, Positioned, X, Y};
 pub use self::field::{Cell, CellAttr, Field};
-use character::player::Status as PlayerStatus;
-use character::EnemyHandler;
-use error::*;
-use item::{ItemHandler, ItemToken};
+use crate::character::player::Status as PlayerStatus;
+use crate::character::EnemyHandler;
+use crate::error::*;
+use crate::item::{ItemHandler, ItemToken};
 use ndarray::Array2;
 use smallvec::SmallVec;
-use tile::Tile;
-use {GameInfo, GameMsg, GlobalConfig};
+use crate::tile::Tile;
+use crate::{GameInfo, GameMsg, GlobalConfig};
+use serde::{Serialize, Deserialize};
+use derive_more::Index;
 
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 #[serde(tag = "style")]

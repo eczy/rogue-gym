@@ -1,9 +1,10 @@
 //! a module for handling user input
-use character::Action;
-use dungeon::Direction;
+use crate::character::Action;
+use crate::dungeon::Direction;
 use regex::Regex;
-use serde::de::{Deserialize, Deserializer, MapAccess, Visitor};
-use serde::ser::{Serialize, SerializeMap, Serializer};
+use serde::{Serialize, Deserialize};
+use serde::de::{Deserializer, MapAccess, Visitor};
+use serde::ser::{SerializeMap, Serializer};
 use std::collections::HashMap;
 use std::fmt;
 use std::marker::PhantomData;

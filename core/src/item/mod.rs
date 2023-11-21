@@ -12,16 +12,20 @@ use self::handler::Handler;
 use self::handler::ItemStat;
 pub use self::itembox::ItemBox;
 use self::weapon::{Weapon, WeaponStatus};
-use character::{Dice, HitPoint, Level};
-use error::*;
-use rng::RngHandle;
-use smallstr::SmallStr;
+use crate::character::{Dice, HitPoint, Level};
+use crate::error::*;
+use crate::rng::RngHandle;
+use crate::smallstr::SmallStr;
 use std::cell::UnsafeCell;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::ops::{Deref, DerefMut};
 use std::rc::{Rc, Weak};
-use tile::{Drawable, Tile};
+use crate::tile::{Drawable, Tile};
+use log::debug;
+use serde::{Serialize, Deserialize};
+use derive_more::{Add, Sub, Mul, Div, Display, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into, BitAnd, BitAndAssign, BitOr, BitOrAssign};
+
 
 /// Item configuration
 #[derive(Clone, Debug, Default, Serialize, Deserialize, Eq, PartialEq)]
@@ -73,6 +77,12 @@ impl Drawable for ItemKind {
         }
         .into()
     }
+
+    const NONE: Tile = Tile(b' ');
+
+    fn color(&self) -> crate::tile::Color {
+        crate::tile::Color(0)
+    }
 }
 
 #[derive(
@@ -113,6 +123,7 @@ pub struct ItemNum(pub u32);
     PartialEq,
     Serialize,
 )]
+
 pub struct ItemAttr(u8);
 
 impl ItemAttr {
@@ -288,6 +299,12 @@ impl Item {
 impl Drawable for Item {
     fn tile(&self) -> Tile {
         self.kind.tile()
+    }
+
+    const NONE: Tile = Tile(b' ');
+
+    fn color(&self) -> crate::tile::Color {
+        crate::tile::Color(0)
     }
 }
 

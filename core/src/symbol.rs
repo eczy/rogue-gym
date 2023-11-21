@@ -1,6 +1,7 @@
 //! Symbol representation of tiles for neural network
+use failure::Fail;
 use rect_iter::Get2D;
-use tile::Tile;
+use crate::tile::Tile;
 
 /// Symbol
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd)]

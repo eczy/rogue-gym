@@ -3,8 +3,10 @@ use super::{X, Y};
 use num_traits::ToPrimitive;
 use rect_iter::{Get2D, GetMut2D, IndexError, RectRange};
 use std::fmt;
-use tile::{Drawable, Tile};
+use crate::tile::{Drawable, Tile};
 use tuple_map::TupleMap2;
+use serde::{Serialize, Deserialize};
+use bitflags::bitflags;
 
 /// Generic representation of Cell
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]

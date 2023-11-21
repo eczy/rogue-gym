@@ -1,5 +1,9 @@
 /// Tile id
 use std::fmt;
+
+use serde::{Serialize, Deserialize};
+use derive_more::From;
+
 #[derive(Clone, Copy, Debug, Hash, Eq, PartialEq, From, Serialize, Deserialize)]
 pub struct Tile(pub u8);
 

@@ -5,8 +5,10 @@ pub use self::player::{Action, Hunger, Leveling, Player};
 pub use enemies::{Enemy, EnemyHandler};
 use num_traits::PrimInt;
 use rand::distributions::uniform::SampleUniform;
-use rng::RngHandle;
+use crate::rng::RngHandle;
 use std::ops::AddAssign;
+use derive_more::{Add, Sub, Mul, Div, Display, Neg, AddAssign, SubAssign, MulAssign, DivAssign, From, Into};
+use serde::{Serialize, Deserialize};
 
 /// values compatible with Hit Point
 #[derive(
