@@ -10,14 +10,14 @@ crate-type = ["cdylib"]
 [dependencies]
 failure = "0.1.3"
 ndarray = "0.12"
-numpy = "0.6.0"
+numpy = "0.20.0"
 
 [dependencies.rect-iter]
 version = "0.3.0"
 default-features = false
 
 [dependencies.pyo3]
-version = "0.7.0"
+version = "0.20.0"
 
 [dependencies.rogue-gym-core]
 path = "../core/"

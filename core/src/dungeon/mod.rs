@@ -1,4 +1,4 @@
-//! module for making and managing dangeon
+//! module for making and managing dungeon
 mod coord;
 mod field;
 mod rogue;

@@ -1,31 +1,3 @@
-#![cfg_attr(test, feature(test))]
-#[macro_use]
-extern crate bitflags;
-#[macro_use]
-extern crate derive_more;
-#[macro_use]
-extern crate enum_iterator;
-#[macro_use]
-extern crate failure;
-extern crate fixedbitset;
-extern crate ndarray;
-extern crate num_traits;
-#[macro_use]
-extern crate log;
-extern crate rand;
-extern crate rand_xorshift;
-extern crate rect_iter;
-extern crate regex;
-#[macro_use]
-extern crate serde;
-extern crate serde_json;
-extern crate smallvec;
-#[cfg(unix)]
-extern crate termion;
-#[cfg(feature = "bench")]
-extern crate test;
-extern crate tuple_map;
-
 mod actions;
 use std::fs::File;
 use std::io::{self, Read};
@@ -46,7 +18,9 @@ use dungeon::{Direction, Dungeon, DungeonStyle, Positioned, X, Y};
 use error::*;
 use input::{InputCode, Key, KeyMap};
 use item::{ItemHandler, ItemKind};
+use log::debug;
 use ndarray::Array2;
+use serde::{Serialize, Deserialize};
 pub use smallstr::SmallStr;
 use tile::{Drawable, Tile};
 use ui::{MordalKind, MordalMsg, UiState};

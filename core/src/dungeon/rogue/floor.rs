@@ -11,6 +11,7 @@ use rect_iter::{Get2D, GetMut2D};
 use rng::RngHandle;
 use std::collections::{HashMap, HashSet, VecDeque};
 use GameMsg;
+use std::convert::TryFrom;
 
 /// representation of 'floor'
 #[derive(Clone, Debug, Default)]
@@ -376,7 +377,7 @@ impl Floor {
         let size = self.field.size();
         let mut array = Array2::from_elem([size.ylen() as usize, size.xlen() as usize], false);
         size.into_iter().for_each(|cd| {
-            *array.get_mut_p(cd) = self.field.get_p(cd).is_visited();
+            *(array.get_mut((usize::try_from(cd.0).expect("convert to usize"), usize::try_from(cd.1).expect("convert to usize"))).expect("array access")) = self.field.get_p(cd).is_visited();
         });
         array
     }
@@ -400,13 +401,13 @@ impl Floor {
         let inf = u32::max_value();
         let mut dist = Array2::from_elem([h.0 as usize, w.0 as usize], inf);
         let mut queue = VecDeque::new();
-        *dist.get_mut_p(from) = 0;
+        *dist.get_mut(Into::<(usize, usize)>::into(from)).expect("get_mut") = 0;
         queue.push_back(from);
         while let Some(current) = queue.pop_front() {
             for d in Direction::into_enum_iter().take(8) {
                 let next = current + d.to_cd();
-                let cdist = *dist.get_p(current);
-                if let Ok(ndist) = dist.try_get_mut_p(next) {
+                let cdist = *dist.get(Into::<(usize, usize)>::into(current)).expect("dist");
+                if let Some(ndist) = dist.get_mut(Into::<(usize, usize)>::into(next)) {
                     if *ndist != inf || self.can_move_impl(current, d, is_enemy) != Some(true) {
                         continue;
                     }

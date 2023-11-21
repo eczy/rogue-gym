@@ -95,6 +95,12 @@ impl<S: Drawable> Drawable for Cell<S> {
             Self::NONE
         }
     }
+
+    const NONE: Tile = Tile(b' ');
+
+    fn color(&self) -> crate::tile::Color {
+        crate::tile::Color(0)
+    }
 }
 
 bitflags! {

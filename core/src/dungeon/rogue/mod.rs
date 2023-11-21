@@ -158,6 +158,12 @@ impl Drawable for Surface {
         }
         .into()
     }
+
+    const NONE: Tile = Tile(b' ');
+
+    fn color(&self) -> crate::tile::Color {
+        crate::tile::Color(0)
+    }
 }
 
 impl Default for Surface {
@@ -353,7 +359,7 @@ impl DungeonTrait for Dungeon {
             if skip(&DungeonPath::from(Address::new(cur.level, next))) {
                 continue;
             }
-            let ndist = *dist_map.get_p(next);
+            let ndist = *dist_map.get(Into::<(usize, usize)>::into(next)).expect("unwrap ndist");
             if ndist == 0 && current_floor.can_move_enemy(cur.cd, d) {
                 return MoveResult::Reach;
             }
