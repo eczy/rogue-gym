@@ -407,7 +407,7 @@ impl Floor {
         while let Some(current) = queue.pop_front() {
             for d in Direction::into_enum_iter().take(8) {
                 let next = current + d.to_cd();
-                let cdist = *dist.get(Into::<(usize, usize)>::into(current)).expect("dist");
+                let cdist = *dist.get_p(current);
                 if let Some(ndist) = dist.get_mut(Into::<(usize, usize)>::into(next)) {
                     if *ndist != inf || self.can_move_impl(current, d, is_enemy) != Some(true) {
                         continue;
