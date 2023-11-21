@@ -7,7 +7,6 @@ use ndarray::{Array2, Axis, Zip};
 use numpy::PyArray3;
 use pyo3::{
     exceptions::PyRuntimeError,
-    // basic::{PyObjectProtocol, PyObjectReprProtocol, PyObjectStrProtocol},
     prelude::*,
 };
 use rect_iter::{Get2D, GetMut2D, RectRange};
@@ -87,7 +86,7 @@ impl PlayerState {
                 *py_array.uget_mut([0, y, x]) = f32::from(symbol) / f32::from(self.symbols);
             });
         Ok(py_array)
-    }
+    } 
     fn symbol_image_with_offset<'py>(
         &self,
         py: Python<'py>,
@@ -217,7 +216,7 @@ struct GameState {
 #[pymethods]
 impl GameState {
     #[new]
-    fn __new__(obj: PyObject, max_steps: usize, config_str: Option<String>) -> PyResult<Self> {
+    fn __new__(max_steps: usize, config_str: Option<String>) -> PyResult<Self> {
         let config = if let Some(cfg) = config_str {
             pyresult_with(GameConfig::from_json(&cfg), "Failed to parse config")?
         } else {
@@ -271,7 +270,6 @@ struct ParallelGameState {
 impl ParallelGameState {
     #[new]
     fn __new__(
-        obj: PyObject,
         py: Python,
         max_steps: usize,
         configs: Vec<String>,
