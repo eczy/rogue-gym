@@ -1,7 +1,7 @@
 use crate::font::{DrawInst, FontHandle};
 use image::GenericImageView;
 use image::{gif::Frame, Pixel, Rgb, Rgba, RgbaImage};
-use rect_iter::GetMut2D;
+
 use rect_iter::RectRange;
 use rogue_gym_core::dungeon::{Coord, X, Y};
 use rogue_gym_core::error::{GameResult, ResultExt1};

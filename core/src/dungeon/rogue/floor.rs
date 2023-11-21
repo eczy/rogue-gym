@@ -12,7 +12,7 @@ use log::debug;
 use ndarray::Array2;
 use rect_iter::{Get2D, GetMut2D};
 use std::collections::{HashMap, HashSet, VecDeque};
-use std::convert::TryFrom;
+
 
 /// representation of 'floor'
 #[derive(Clone, Debug, Default)]
