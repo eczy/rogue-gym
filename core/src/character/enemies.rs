@@ -10,7 +10,7 @@ use serde::{Deserialize, Serialize};
 use smallvec::SmallVec;
 use std::cell::Cell;
 use std::collections::BTreeMap;
-use std::ops::{BitOr, Range};
+use std::ops::Range;
 use std::rc::{Rc, Weak};
 
 pub type DiceVec<T> = SmallVec<[Dice<T>; 4]>;

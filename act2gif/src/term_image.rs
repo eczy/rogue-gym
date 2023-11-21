@@ -1,5 +1,4 @@
 use crate::font::{DrawInst, FontHandle};
-use image::GenericImageView;
 use image::{gif::Frame, Pixel, Rgb, Rgba, RgbaImage};
 
 use rect_iter::RectRange;
