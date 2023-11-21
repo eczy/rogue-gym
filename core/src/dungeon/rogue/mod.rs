@@ -7,19 +7,18 @@ use self::floor::Floor;
 pub use self::rooms::{Room, RoomKind};
 use super::{Coord, Direction, Dungeon as DungeonTrait, DungeonPath, MoveResult, Positioned, X, Y};
 use crate::character::{player::Status as PlayerStatus, EnemyHandler};
-use enum_iterator::IntoEnumIterator;
-use log::debug;
 use crate::error::*;
 use crate::item::{ItemHandler, ItemToken};
+use crate::rng::RngHandle;
+use crate::tile::{Drawable, Tile};
+use crate::{GameInfo, GameMsg, GlobalConfig};
+use enum_iterator::IntoEnumIterator;
+use log::debug;
 use ndarray::Array2;
 use rect_iter::{Get2D, GetMut2D, RectRange};
-use crate::rng::RngHandle;
+use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
-use crate::tile::{Drawable, Tile};
 use tuple_map::TupleMap2;
-use crate::{GameInfo, GameMsg, GlobalConfig};
-use serde::{Serialize,Deserialize};
-
 
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]
 pub struct Config {
@@ -362,7 +361,7 @@ impl DungeonTrait for Dungeon {
             if skip(&DungeonPath::from(Address::new(cur.level, next))) {
                 continue;
             }
-            let ndist = *dist_map.get(Into::<(usize, usize)>::into(next)).expect("unwrap ndist");
+            let ndist = *dist_map.get_p(next);
             if ndist == 0 && current_floor.can_move_enemy(cur.cd, d) {
                 return MoveResult::Reach;
             }

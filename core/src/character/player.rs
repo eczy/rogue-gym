@@ -5,14 +5,12 @@ use crate::item::{
     armor, food::Food, itembox::ItemBox, weapon, InitItem, Item, ItemHandler, ItemKind, ItemToken,
 };
 use crate::rng::RngHandle;
-use crate::tile::{Drawable, Tile};
 use crate::smallstr::SmallStr;
-use std::{cmp, fmt};
+use crate::tile::{Drawable, Tile};
 use log::debug;
+use serde::{Deserialize, Serialize};
+use std::{cmp, fmt};
 use tuple_map::TupleMap2;
-use serde::{Serialize, Deserialize};
-
-
 
 /// Player configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

@@ -16,16 +16,18 @@ use crate::character::{Dice, HitPoint, Level};
 use crate::error::*;
 use crate::rng::RngHandle;
 use crate::smallstr::SmallStr;
+use crate::tile::{Drawable, Tile};
+use derive_more::{
+    Add, AddAssign, BitAnd, BitAndAssign, BitOr, BitOrAssign, Div, DivAssign, From, Into, Mul,
+    MulAssign, Sub, SubAssign,
+};
+use log::debug;
+use serde::{Deserialize, Serialize};
 use std::cell::UnsafeCell;
 use std::collections::BTreeMap;
 use std::fmt;
 use std::ops::{Deref, DerefMut};
 use std::rc::{Rc, Weak};
-use crate::tile::{Drawable, Tile};
-use log::debug;
-use serde::{Serialize, Deserialize};
-use derive_more::{Add, Sub, Mul, Div, AddAssign, SubAssign, MulAssign, DivAssign, From, Into, BitAnd, BitAndAssign, BitOr, BitOrAssign};
-
 
 /// Item configuration
 #[derive(Clone, Debug, Default, Serialize, Deserialize, Eq, PartialEq)]

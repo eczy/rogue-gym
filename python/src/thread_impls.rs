@@ -1,11 +1,11 @@
+use crate::state_impls::GameStateImpl;
+use crate::PlayerState;
 use rogue_gym_core::{
     error::{GameResult, ResultExt2},
     GameConfig,
 };
-use crate::state_impls::GameStateImpl;
 use std::sync::mpsc::{self, Receiver, SyncSender};
 use std::thread;
-use crate::PlayerState;
 
 pub(crate) struct ThreadConductor {
     receivers: Vec<Receiver<GameResult<PlayerState>>>,

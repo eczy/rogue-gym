@@ -1,8 +1,8 @@
 use crate::rng::Rng;
 #[cfg(test)]
 use crate::rng::RngHandle;
+use serde::{Deserialize, Serialize};
 use std::ops::Range;
-use serde::{Serialize, Deserialize};
 
 /// a set implementation using Fenwick Tree
 #[derive(Clone, Debug, Serialize, Deserialize)]

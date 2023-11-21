@@ -3,8 +3,8 @@ use super::{InitItem, Item, ItemAttr, ItemKind, ItemNum};
 use crate::character::Defense;
 use crate::rng::{Parcent, RngHandle};
 use crate::smallstr::SmallStr;
+use serde::{Deserialize, Serialize};
 use std::fmt;
-use serde::{Serialize, Deserialize};
 
 /// Armor configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

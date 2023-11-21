@@ -1,12 +1,12 @@
 //! General field representation
 use super::{X, Y};
+use crate::tile::{Drawable, Tile};
+use bitflags::bitflags;
 use num_traits::ToPrimitive;
 use rect_iter::{Get2D, GetMut2D, IndexError, RectRange};
+use serde::{Deserialize, Serialize};
 use std::fmt;
-use crate::tile::{Drawable, Tile};
 use tuple_map::TupleMap2;
-use serde::{Serialize, Deserialize};
-use bitflags::bitflags;
 
 /// Generic representation of Cell
 #[derive(Clone, Copy, Debug, Default, Serialize, Deserialize)]

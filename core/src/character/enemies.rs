@@ -1,17 +1,17 @@
 use super::{DamageReaction, Defense, Dice, Exp, HitPoint, Level, Strength};
-use crate::{Drawable, SmallStr};
 use crate::dungeon::{Dungeon, DungeonPath, MoveResult};
 use crate::item::ItemNum;
 use crate::rng::{Parcent, RngHandle};
+use crate::tile::Tile;
+use crate::{Drawable, SmallStr};
+use derive_more::BitOr;
 use log::debug;
+use serde::{Deserialize, Serialize};
 use smallvec::SmallVec;
 use std::cell::Cell;
 use std::collections::BTreeMap;
-use std::ops::{Range, BitOr};
+use std::ops::{BitOr, Range};
 use std::rc::{Rc, Weak};
-use crate::tile::Tile;
-use serde::{Serialize, Deserialize};
-use derive_more::BitOr;
 
 pub type DiceVec<T> = SmallVec<[Dice<T>; 4]>;
 

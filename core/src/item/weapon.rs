@@ -3,10 +3,10 @@ use super::{InitItem, Item, ItemAttr, ItemKind, ItemNum};
 use crate::character::{Dice, HitPoint, Level};
 use crate::rng::{Parcent, RngHandle};
 use crate::SmallStr;
+use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::ops::Range;
 use tuple_map::TupleMap3;
-use serde::{Serialize,Deserialize};
 
 /// Weapon configuration
 #[derive(Clone, Debug, Serialize, Deserialize, Eq, PartialEq)]

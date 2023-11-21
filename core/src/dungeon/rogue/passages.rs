@@ -1,14 +1,14 @@
 use super::{Room, RoomKind, Surface};
 use crate::dungeon::{Coord, Direction, Positioned, X, Y};
-use enum_iterator::IntoEnumIterator;
 use crate::error::*;
 use crate::fenwick::FenwickSet;
+use crate::rng::{RngHandle, SliceRandom};
+use derive_more::Index;
+use enum_iterator::IntoEnumIterator;
 use fixedbitset::FixedBitSet;
 use rect_iter::{IntoTuple2, RectRange};
-use crate::rng::{RngHandle, SliceRandom};
 use std::collections::HashMap;
 use tuple_map::TupleMap2;
-use derive_more::Index;
 
 /// make passages between rooms
 pub(super) fn dig_passges<F>(
@@ -297,9 +297,9 @@ fn test_inclusive_edges() {
 mod test {
     use super::*;
     use crate::dungeon::rogue::rooms;
+    use crate::tile::Drawable;
     use rect_iter::{Get2D, GetMut2D};
     use std::collections::VecDeque;
-    use crate::tile::Drawable;
     fn to_buffer() -> Vec<Vec<Surface>> {
         let rooms = rooms::test::gen(10);
         let mut buffer = rooms::test::draw_to_buffer(&rooms);

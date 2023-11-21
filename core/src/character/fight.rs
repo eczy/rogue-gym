@@ -1,6 +1,6 @@
 use super::{Damage, Defense, Dice, Enemy, HitPoint, Level, Player, Strength};
-use crate::rng::{Parcent, RngHandle};
 use crate::item::ItemToken;
+use crate::rng::{Parcent, RngHandle};
 use std::iter;
 
 pub fn player_attack(

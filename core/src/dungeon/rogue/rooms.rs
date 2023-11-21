@@ -2,12 +2,12 @@ use super::{maze, Config, Surface};
 use crate::dungeon::{Coord, Positioned, X, Y};
 use crate::error::*;
 use crate::fenwick::FenwickSet;
+use crate::rng::RngHandle;
 use fixedbitset::FixedBitSet;
 use log::warn;
 use rect_iter::{IntoTuple2, RectRange};
-use crate::rng::RngHandle;
+use serde::{Deserialize, Serialize};
 use tuple_map::TupleMap2;
-use serde::{Serialize, Deserialize};
 
 /// type of room
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -274,8 +274,8 @@ pub(super) fn make_room(
 pub(super) mod test {
     use super::*;
     use crate::dungeon::Direction;
-    use rect_iter::GetMut2D;
     use crate::tile::Drawable;
+    use rect_iter::GetMut2D;
     pub fn gen(level: u32) -> Vec<Room> {
         let mut config = Config::default();
         config.maze_rate_inv = 5;

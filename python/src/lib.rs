@@ -106,7 +106,7 @@ impl PlayerState {
         Ok(py_array)
     }
     fn copy_hist(&self, py_array: &PyArray3<f32>, offset: usize) {
-        let mut array = unsafe {py_array.as_array_mut()};
+        let mut array = unsafe { py_array.as_array_mut() };
         let hist_array = array.index_axis_mut(Axis(0), usize::from(offset));
         Zip::from(hist_array).and(&self.history).for_each(|p, &r| {
             *p = if r { 1.0 } else { 0.0 };
@@ -125,7 +125,7 @@ impl PlayerState {
         dungeon.push_str(&format!("{}", self.status));
         dungeon
     }
-    fn __str__(& self) -> String {
+    fn __str__(&self) -> String {
         self.__repr__()
     }
 
@@ -168,7 +168,7 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.gray_image_with_offset(py, flag.len())?;
-        flag.copy_status(&self.status, 1, &mut unsafe {array.as_array_mut()});
+        flag.copy_status(&self.status, 1, &mut unsafe { array.as_array_mut() });
         Ok(array)
     }
     fn gray_image_with_hist(&self, flag: Option<u32>) -> PyResult<&PyArray3<f32>> {
@@ -177,7 +177,7 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.gray_image_with_offset(py, flag.len() + 1)?;
-        let offset = flag.copy_status(&self.status, 1, &mut unsafe {array.as_array_mut()});
+        let offset = flag.copy_status(&self.status, 1, &mut unsafe { array.as_array_mut() });
         self.copy_hist(&array, offset);
         Ok(array)
     }
@@ -188,11 +188,9 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.symbol_image_with_offset(py, flag.len())?;
-        flag.copy_status(
-            &self.status,
-            usize::from(self.symbols),
-            &mut unsafe{array.as_array_mut()},
-        );
+        flag.copy_status(&self.status, usize::from(self.symbols), &mut unsafe {
+            array.as_array_mut()
+        });
         Ok(array)
     }
     /// Convert PlayerState to 3D symbol image, with player history
@@ -202,11 +200,9 @@ impl PlayerState {
             StatusFlagInner::from(flag),
         );
         let array = self.symbol_image_with_offset(py, flag.len() + 1)?;
-        let offset = flag.copy_status(
-            &self.status,
-            usize::from(self.symbols),
-            &mut unsafe {array.as_array_mut()},
-        );
+        let offset = flag.copy_status(&self.status, usize::from(self.symbols), &mut unsafe {
+            array.as_array_mut()
+        });
         self.copy_hist(&array, offset);
         Ok(array)
     }
@@ -298,7 +294,7 @@ impl ParallelGameState {
         let cloned = configs.clone();
         let conductor = py.allow_threads(move || ThreadConductor::new(cloned, max_steps));
         let conductor = pyresult(conductor)?;
-        Ok( ParallelGameState {
+        Ok(ParallelGameState {
             conductor,
             configs,
             symbols,

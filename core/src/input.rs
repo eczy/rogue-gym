@@ -2,9 +2,9 @@
 use crate::character::Action;
 use crate::dungeon::Direction;
 use regex::Regex;
-use serde::{Serialize, Deserialize};
 use serde::de::{Deserializer, MapAccess, Visitor};
 use serde::ser::{SerializeMap, Serializer};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fmt;
 use std::marker::PhantomData;

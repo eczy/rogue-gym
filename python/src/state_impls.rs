@@ -1,3 +1,4 @@
+use crate::PlayerState;
 use failure::bail;
 use rogue_gym_core::{
     error::GameResult,
@@ -5,7 +6,6 @@ use rogue_gym_core::{
     ui::{MordalKind, UiState},
     GameConfig, Reaction, RunTime,
 };
-use crate::PlayerState;
 
 pub(crate) struct GameStateImpl {
     pub(crate) runtime: RunTime,

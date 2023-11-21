@@ -1,6 +1,6 @@
 use super::{Item, ItemAttr, ItemNum};
 use crate::rng::{Parcent, RngHandle};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 pub(super) trait ItemInner {
     fn get_cursed(&mut self, _rng: &mut RngHandle) {}
