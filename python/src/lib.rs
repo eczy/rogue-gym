@@ -5,10 +5,7 @@ mod thread_impls;
 use features::{MessageFlagInner, StatusFlagInner};
 use ndarray::{Array2, Axis, Zip};
 use numpy::PyArray3;
-use pyo3::{
-    exceptions::PyRuntimeError,
-    prelude::*,
-};
+use pyo3::{exceptions::PyRuntimeError, prelude::*};
 use rect_iter::{Get2D, GetMut2D, RectRange};
 use rogue_gym_core::character::player::Status;
 use rogue_gym_core::dungeon::{Positioned, X, Y};
@@ -86,7 +83,7 @@ impl PlayerState {
                 *py_array.uget_mut([0, y, x]) = f32::from(symbol) / f32::from(self.symbols);
             });
         Ok(py_array)
-    } 
+    }
     fn symbol_image_with_offset<'py>(
         &self,
         py: Python<'py>,
@@ -269,11 +266,7 @@ struct ParallelGameState {
 #[pymethods]
 impl ParallelGameState {
     #[new]
-    fn __new__(
-        py: Python,
-        max_steps: usize,
-        configs: Vec<String>,
-    ) -> PyResult<Self> {
+    fn __new__(py: Python, max_steps: usize, configs: Vec<String>) -> PyResult<Self> {
         let configs = {
             let mut res = vec![];
             for cfg in configs {
