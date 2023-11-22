@@ -6,6 +6,7 @@ use rogue_gym_core::{error::*, input::InputCode, GameConfig, Reaction};
 use rogue_gym_uilib::process_reaction;
 use std::fs::File;
 use std::io::BufWriter;
+use anyhow::{Context, Result};
 
 pub struct GifEncoder<'a> {
     config: GameConfig,
@@ -33,7 +34,7 @@ impl<'a> GifEncoder<'a> {
     }
     pub fn exec(&mut self, inputs: Vec<InputCode>, filename: &str) -> GameResult<()> {
         let mut runtime = self.config.clone().build()?;
-        let file = File::create(filename).into_chained(|| "Failed to crate file")?;
+        let file = File::create(filename).with_context(|| "Failed to crate file")?;
         let writer = BufWriter::new(file);
         let mut encoder = Encoder::new(writer);
         let mut term = TermImage::new(
