@@ -1,4 +1,4 @@
-use error::*;
+use crate::error::*;
 use rogue_gym_core::dungeon::{Coord, X, Y};
 use rogue_gym_uilib::Screen;
 use std::collections::VecDeque;
