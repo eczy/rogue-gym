@@ -1,13 +1,13 @@
 use crate::font::{DrawInst, FontHandle};
 use image::{gif::Frame, Pixel, Rgb, Rgba, RgbaImage};
 
+use anyhow::Context;
 use rect_iter::RectRange;
 use rogue_gym_core::dungeon::{Coord, X, Y};
 use rogue_gym_core::error::GameResult;
 use rogue_gym_uilib::Screen;
 use rusttype::point;
 use tuple_map::TupleMap2;
-use anyhow::Context;
 
 #[derive(Debug, Fail)]
 #[fail(display = "EncodeError")]

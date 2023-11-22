@@ -1,12 +1,12 @@
 use crate::font::FontHandle;
 use crate::term_image::TermImage;
 use crate::theme::Theme;
+use anyhow::{Context, Result};
 use image::gif::{DisposalMethod, Encoder};
 use rogue_gym_core::{error::*, input::InputCode, GameConfig, Reaction};
 use rogue_gym_uilib::process_reaction;
 use std::fs::File;
 use std::io::BufWriter;
-use anyhow::{Context, Result};
 
 pub struct GifEncoder<'a> {
     config: GameConfig,
